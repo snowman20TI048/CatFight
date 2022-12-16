@@ -17,7 +17,9 @@ public class PlayerController : MonoBehaviour
     [Header("ジャンプ力")]
     public float jumpPower;                      // ジャンプ・浮遊力
 
-
+    [SerializeField, Header("Linecast用 地面判定レイヤー")]
+    private LayerMask groundLayer;
+    public bool isGrounded;
 
     void Start()
     {
@@ -28,8 +30,14 @@ public class PlayerController : MonoBehaviour
     {
         inputHorizontal = Input.GetAxis("Horizontal");
         inputVertical = Input.GetAxis("Vertical");
+        
+        // 地面接地  Physics2D.Linecastメソッドを実行して、Ground Layerとキャラのコライダーとが接地している距離かどうかを確認し、接地しているなら true、接地していないなら false を戻す
+        isGrounded = Physics.Linecast(transform.position + transform.up * 0.4f, transform.position - transform.up * 0.9f, groundLayer);
+
+        // Sceneビューに Physics2D.LinecastメソッドのLineを表示する
+        Debug.DrawLine(transform.position + transform.up * 0.4f, transform.position - transform.up * 0.9f, Color.red, 1.0f);
         // ジャンプ
-        if (Input.GetButtonDown(jump))
+        if (Input.GetButtonDown(jump) && isGrounded == true)
         {    // InputManager の Jump の項目に登録されているキー入力を判定する
             Jump();
 
