@@ -13,6 +13,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float moveSpeed;
 
+    private string jump = "Jump";　　　　　　　　// キー入力用の文字列指定
+    [Header("ジャンプ力")]
+    public float jumpPower;                      // ジャンプ・浮遊力
+
+
 
     void Start()
     {
@@ -23,7 +28,12 @@ public class PlayerController : MonoBehaviour
     {
         inputHorizontal = Input.GetAxis("Horizontal");
         inputVertical = Input.GetAxis("Vertical");
+        // ジャンプ
+        if (Input.GetButtonDown(jump))
+        {    // InputManager の Jump の項目に登録されているキー入力を判定する
+            Jump();
 
+        }
     }
 
     // 前進・後退のメソッド
@@ -44,5 +54,16 @@ public class PlayerController : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(moveForward);
         }
     }
+        /// <summary>
+        /// ジャンプと空中浮遊
+        /// </summary>
+        private void Jump()
+        {
 
-}
+            // キャラの位置を上方向へ移動させる(ジャンプ・浮遊)
+            rb.AddForce(transform.up * jumpPower);
+
+        }
+
+
+    }
