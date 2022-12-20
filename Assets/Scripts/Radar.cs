@@ -41,7 +41,7 @@ public class Radar : MonoBehaviour
         {
             return;
         }
-        if(Input.GetKeyDown(KeyCode.X) && isChild == true)
+        if(Input.GetKeyDown(KeyCode.C) && isChild == true)
         {
             Debug.Log("b");
             isChild = false;
