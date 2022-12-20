@@ -6,12 +6,10 @@ using UnityEngine.UI;
 
 public class BallController : MonoBehaviour
 {
-    [SerializeField]
-    private Text PointLabel;
 
-    public int PlayerPointCount;
-    public int EnemyPointCount;
+   
 
+   
     [SerializeField, Header("Linecast用 味方陣地判定レイヤー")]
     private LayerMask playerArea;
     [SerializeField, Header("Linecast用 敵陣地判定レイヤー")]
@@ -22,12 +20,12 @@ public class BallController : MonoBehaviour
 
 
     public Radar radarScript;
+    private GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        PointLabel.text = "自分のポイント：" + PlayerPointCount
-            + "\n相手のポイント：" + EnemyPointCount;
+        
     }
 
     // Update is called once per frame
@@ -39,16 +37,19 @@ public class BallController : MonoBehaviour
 
         if (isPlayerArea == true && radarScript.isChild == false)
         {
-            PlayerPointCount++;
-            PointLabel.text = "自分のポイント：" + PlayerPointCount
-             + "\n相手のポイント：" + EnemyPointCount;
+            gameManager.AddEnemyPointCount();
+            Destroy(this.gameObject);
         }
 
         if (isEnemyArea == true && radarScript.isChild == false)
         {
-            EnemyPointCount++;
-            PointLabel.text = "自分のポイント：" + PlayerPointCount
-             + "\n相手のポイント：" + EnemyPointCount;
+            gameManager.AddPlayerPointCount();           
+            Destroy(this.gameObject);
         }
+    }
+
+    public void SetUpBall(GameManager gameManager)
+    {
+        this.gameManager = gameManager;
     }
 }
