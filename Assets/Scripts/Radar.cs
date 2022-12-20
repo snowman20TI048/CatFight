@@ -7,7 +7,7 @@ public class Radar : MonoBehaviour
     [SerializeField]
     private Transform target;
 
-    private bool isChild = false;
+    public bool isChild = false;
 
     // 「OnTriggerStay」はトリガーが他のコライダーに触れている間中実行されるメソッド（ポイント）
     private void OnTriggerStay(Collider other)
