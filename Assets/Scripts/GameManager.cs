@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour
     private GameObject DrumstickPrefab;
 
     [SerializeField]
+    private GameObject Enemy;
+
+    [SerializeField]
     private Text PointLabel;
 
 
@@ -55,6 +58,7 @@ public class GameManager : MonoBehaviour
     {
        GameObject drumstick = Instantiate(DrumstickPrefab, new Vector3(0.0f, 5.0f, 0.0f), Quaternion.identity);
         drumstick.GetComponent<BallController>().SetUpBall(this);
+        Enemy.GetComponent<ChaseEnemy>().target = drumstick;
     }
 
     private void CountDown()
