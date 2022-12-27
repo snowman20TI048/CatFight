@@ -62,7 +62,12 @@ public class PlayerController : MonoBehaviour
         // キー入力により移動方向が決まっている場合には、キャラクターの向きを進行方向に合わせる
         if (moveForward != Vector3.zero)
         {
+            animator.SetFloat("Run", 0.3f);
             transform.rotation = Quaternion.LookRotation(moveForward);
+        }
+        else 
+        {
+            animator.SetFloat("Run", 0);
         }
     }
     /// <summary>
