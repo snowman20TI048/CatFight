@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (timer <= 0) { return; }  //ŽžŠÔ‚ªI‚í‚Á‚½‚çA‚»‚±‚Åˆ—‚ðŽ~‚ß‚éB—]•ª‚Èˆ—‚ð‚µ‚È‚­‚µ‚ÄƒQ[ƒ€‚ðŒy‚­‚·‚é‚½‚ßB
         CountDown();
     }
 
