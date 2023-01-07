@@ -15,13 +15,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float moveSpeed;
 
-    private string jump = "Jump";@@@@@@@@// ƒL[“ü—Í—p‚Ì•¶š—ñw’è
-    [Header("ƒWƒƒƒ“ƒv—Í")]
-    public float jumpPower;                      // ƒWƒƒƒ“ƒvE•‚—V—Í
+    private string jump = "Jump";ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€// ã‚­ãƒ¼å…¥åŠ›ç”¨ã®æ–‡å­—åˆ—æŒ‡å®š
+    [Header("ã‚¸ãƒ£ãƒ³ãƒ—åŠ›")]
+    public float jumpPower;                      // ã‚¸ãƒ£ãƒ³ãƒ—ãƒ»æµ®éŠåŠ›
 
-    private string hit = "Hit";@@@@@@@@// ƒL[“ü—Í—p‚Ì•¶š—ñw’è
+    private string hit = "Hit";ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€// ã‚­ãƒ¼å…¥åŠ›ç”¨ã®æ–‡å­—åˆ—æŒ‡å®š
 
-    [SerializeField, Header("Linecast—p ’n–Ê”»’èƒŒƒCƒ„[")]
+    [SerializeField, Header("Linecastç”¨ åœ°é¢åˆ¤å®šãƒ¬ã‚¤ãƒ¤ãƒ¼")]
     private LayerMask groundLayer;
     public bool isGrounded;
 
@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     {
         TryGetComponent(out rb);
         TryGetComponent(out animator);
+        print(this.transform.childCount);
     }
 
     void Update()
@@ -36,38 +37,38 @@ public class PlayerController : MonoBehaviour
         inputHorizontal = Input.GetAxis("Horizontal");
         inputVertical = Input.GetAxis("Vertical");
 
-        // ’n–ÊÚ’n  Physics2D.Linecastƒƒ\ƒbƒh‚ğÀs‚µ‚ÄAGround Layer‚ÆƒLƒƒƒ‰‚ÌƒRƒ‰ƒCƒ_[‚Æ‚ªÚ’n‚µ‚Ä‚¢‚é‹——£‚©‚Ç‚¤‚©‚ğŠm”F‚µAÚ’n‚µ‚Ä‚¢‚é‚È‚ç trueAÚ’n‚µ‚Ä‚¢‚È‚¢‚È‚ç false ‚ğ–ß‚·
+        // åœ°é¢æ¥åœ°  Physics2D.Linecastãƒ¡ã‚½ãƒƒãƒ‰ã‚’å®Ÿè¡Œã—ã¦ã€Ground Layerã¨ã‚­ãƒ£ãƒ©ã®ã‚³ãƒ©ã‚¤ãƒ€ãƒ¼ã¨ãŒæ¥åœ°ã—ã¦ã„ã‚‹è·é›¢ã‹ã©ã†ã‹ã‚’ç¢ºèªã—ã€æ¥åœ°ã—ã¦ã„ã‚‹ãªã‚‰ trueã€æ¥åœ°ã—ã¦ã„ãªã„ãªã‚‰ false ã‚’æˆ»ã™
         isGrounded = Physics.Linecast(transform.position + transform.up * 0.4f, transform.position - transform.up * 0.9f, groundLayer);
 
-        // Sceneƒrƒ…[‚É Physics2D.Linecastƒƒ\ƒbƒh‚ÌLine‚ğ•\¦‚·‚é
+        // Sceneãƒ“ãƒ¥ãƒ¼ã« Physics2D.Linecastãƒ¡ã‚½ãƒƒãƒ‰ã®Lineã‚’è¡¨ç¤ºã™ã‚‹
         Debug.DrawLine(transform.position + transform.up * 0.4f, transform.position - transform.up * 0.9f, Color.red, 1.0f);
-        // ƒWƒƒƒ“ƒv
+        // ã‚¸ãƒ£ãƒ³ãƒ—
         if (Input.GetButtonDown(jump) && isGrounded == true)
-        {    // InputManager ‚Ì Jump ‚Ì€–Ú‚É“o˜^‚³‚ê‚Ä‚¢‚éƒL[“ü—Í‚ğ”»’è‚·‚é
+        {    // InputManager ã® Jump ã®é …ç›®ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ã‚­ãƒ¼å…¥åŠ›ã‚’åˆ¤å®šã™ã‚‹
             Jump();
 
         }
 
-        if (Input.GetKeyDown(KeyCode.Z) && isGrounded == true)
-        {    // InputManager ‚Ì Jump ‚Ì€–Ú‚É“o˜^‚³‚ê‚Ä‚¢‚éƒL[“ü—Í‚ğ”»’è‚·‚é
+        if (Input.GetKeyDown(KeyCode.Z) && this.transform.childCount < 3)
+        {    // InputManager ã® Jump ã®é …ç›®ã«ç™»éŒ²ã•ã‚Œã¦ã„ã‚‹ã‚­ãƒ¼å…¥åŠ›ã‚’åˆ¤å®šã™ã‚‹
             Hit();
 
         }
     }
 
-    // ‘OiEŒã‘Ş‚Ìƒƒ\ƒbƒh
+    // å‰é€²ãƒ»å¾Œé€€ã®ãƒ¡ã‚½ãƒƒãƒ‰
     void FixedUpdate()
     {
-        // ƒJƒƒ‰‚Ì•ûŒü‚©‚çAX-Z•½–Ê‚Ì’PˆÊƒxƒNƒgƒ‹‚ğæ“¾
+        // ã‚«ãƒ¡ãƒ©ã®æ–¹å‘ã‹ã‚‰ã€X-Zå¹³é¢ã®å˜ä½ãƒ™ã‚¯ãƒˆãƒ«ã‚’å–å¾—
         Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
 
-        // •ûŒüƒL[‚Ì“ü—Í’l‚ÆƒJƒƒ‰‚ÌŒü‚«‚©‚çAˆÚ“®•ûŒü‚ğŒˆ’è
+        // æ–¹å‘ã‚­ãƒ¼ã®å…¥åŠ›å€¤ã¨ã‚«ãƒ¡ãƒ©ã®å‘ãã‹ã‚‰ã€ç§»å‹•æ–¹å‘ã‚’æ±ºå®š
         Vector3 moveForward = cameraForward * inputVertical + Camera.main.transform.right * inputHorizontal;
 
-        // ˆÚ“®•ûŒü‚ÉƒXƒs[ƒh‚ğŠ|‚¯‚éBƒWƒƒƒ“ƒv‚â—‰º‚ª‚ ‚éê‡‚ÍA•Ê“rY²•ûŒü‚Ì‘¬“xƒxƒNƒgƒ‹‚ğ‘«‚·
+        // ç§»å‹•æ–¹å‘ã«ã‚¹ãƒ”ãƒ¼ãƒ‰ã‚’æ›ã‘ã‚‹ã€‚ã‚¸ãƒ£ãƒ³ãƒ—ã‚„è½ä¸‹ãŒã‚ã‚‹å ´åˆã¯ã€åˆ¥é€”Yè»¸æ–¹å‘ã®é€Ÿåº¦ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¶³ã™
         rb.velocity = moveSpeed * moveForward + new Vector3(0, rb.velocity.y, 0);
 
-        // ƒL[“ü—Í‚É‚æ‚èˆÚ“®•ûŒü‚ªŒˆ‚Ü‚Á‚Ä‚¢‚éê‡‚É‚ÍAƒLƒƒƒ‰ƒNƒ^[‚ÌŒü‚«‚ğis•ûŒü‚É‡‚í‚¹‚é
+        // ã‚­ãƒ¼å…¥åŠ›ã«ã‚ˆã‚Šç§»å‹•æ–¹å‘ãŒæ±ºã¾ã£ã¦ã„ã‚‹å ´åˆã«ã¯ã€ã‚­ãƒ£ãƒ©ã‚¯ã‚¿ãƒ¼ã®å‘ãã‚’é€²è¡Œæ–¹å‘ã«åˆã‚ã›ã‚‹
         if (moveForward != Vector3.zero)
         {
             animator.SetFloat("Run", 0.3f);
@@ -79,12 +80,12 @@ public class PlayerController : MonoBehaviour
         }
     }
     /// <summary>
-    /// ƒWƒƒƒ“ƒv‚Æ‹ó’†•‚—V
+    /// ã‚¸ãƒ£ãƒ³ãƒ—ã¨ç©ºä¸­æµ®éŠ
     /// </summary>
     private void Jump()
     {
         animator.SetTrigger("Jump");
-        // ƒLƒƒƒ‰‚ÌˆÊ’u‚ğã•ûŒü‚ÖˆÚ“®‚³‚¹‚é(ƒWƒƒƒ“ƒvE•‚—V)
+        // ã‚­ãƒ£ãƒ©ã®ä½ç½®ã‚’ä¸Šæ–¹å‘ã¸ç§»å‹•ã•ã›ã‚‹(ã‚¸ãƒ£ãƒ³ãƒ—ãƒ»æµ®éŠ)
         rb.AddForce(transform.up * jumpPower);
 
     }
