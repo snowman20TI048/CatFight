@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour
     [Header("ジャンプ力")]
     public float jumpPower;                      // ジャンプ・浮遊力
 
+    private string hit = "Hit";　　　　　　　　// キー入力用の文字列指定
+
     [SerializeField, Header("Linecast用 地面判定レイヤー")]
     private LayerMask groundLayer;
     public bool isGrounded;
@@ -43,6 +45,12 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown(jump) && isGrounded == true)
         {    // InputManager の Jump の項目に登録されているキー入力を判定する
             Jump();
+
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z) && isGrounded == true)
+        {    // InputManager の Jump の項目に登録されているキー入力を判定する
+            Hit();
 
         }
     }
@@ -81,5 +89,10 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void Hit()
+    {
+        animator.SetTrigger("Hit");
+
+    }
 
 }
