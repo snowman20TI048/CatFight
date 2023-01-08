@@ -23,7 +23,7 @@ public class ChaseEnemy : MonoBehaviour
             // ターゲットの位置を目的地に設定する。
             agent.destination = target.transform.position;
 
-            /*
+           
             if (agent.isStopped == false)
             {
                 animator.SetFloat("Run", 0.3f);
@@ -32,7 +32,7 @@ public class ChaseEnemy : MonoBehaviour
             {
                 animator.SetFloat("Run", 0);
             }
-            */
+            
         }
 
         

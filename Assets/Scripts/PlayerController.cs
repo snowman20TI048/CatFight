@@ -96,4 +96,9 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public void Attack()
+    {
+        Debug.Log("Attack");
+    }
+
 }
