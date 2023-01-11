@@ -24,7 +24,7 @@ public class ChaseEnemy : MonoBehaviour
             agent.destination = target.transform.position;
 
            
-            if (agent.isStopped == false)
+            if (agent.velocity != Vector3.zero)
             {
                 animator.SetFloat("Run", 0.3f);
             }
