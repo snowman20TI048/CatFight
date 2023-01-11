@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
     private float inputVertical;
     private Rigidbody rb;
 
+    [SerializeField]
+    private float knockbackPower = 5.0f;
+
     private Animator animator;
 
     [SerializeField]
@@ -19,7 +22,7 @@ public class PlayerController : MonoBehaviour
     [Header("ジャンプ力")]
     public float jumpPower;                      // ジャンプ・浮遊力
 
-    private string hit = "Hit";　　　　　　　　// キー入力用の文字列指定
+   // private string hit = "Hit";　　　　　　　　// キー入力用の文字列指定
 
     [SerializeField, Header("Linecast用 地面判定レイヤー")]
     private LayerMask groundLayer;
@@ -99,6 +102,45 @@ public class PlayerController : MonoBehaviour
     public void Attack()
     {
         Debug.Log("Attack");
+
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        // もしも他のオブジェクトに「Enemy」というTag（タグ）が付いていたならば（条件）
+        if (other.CompareTag("Enemy"))
+        {
+            if (Input.GetKeyDown(KeyCode.Z))
+            {
+
+                StartCoroutine(Knockback(other));
+
+            }
+
+
+            
+
+        }
+    }
+
+    private IEnumerator Knockback(Collider other)
+    {
+        //もらってくる引数はクラスの情報で書く！！
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log("hit");
+        // transformを取得
+       // Transform othertransform = other.transform;
+        Vector3 direction = (other.transform.position - this.transform.position).normalized;
+
+        // 座標を取得
+        //Vector3 pos = othertransform.position;
+        // pos.x += 0.01f;    // x座標へ0.01加算
+        //pos.y += 0.01f;    // y座標へ0.01加算
+        // pos.z += 5.0f;    // z座標へ0.01加算
+
+        other.transform.position += direction * knockbackPower;
+
+    }
+
 
 }
