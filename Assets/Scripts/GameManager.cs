@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -74,6 +75,16 @@ public class GameManager : MonoBehaviour
         if (timer <= 0)
         {
             TimeLabel.text = "0秒";
+            // ★追加
+            // 1.5秒後に「GoToResult()」メソッドを実行する。
+            Invoke("GoToResult", 1.5f);
         }
     }
+
+    // ★追加
+    void GoToResult()
+    {
+        SceneManager.LoadScene("Result");
+    }
+
 }
