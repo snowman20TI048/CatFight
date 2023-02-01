@@ -1476,7 +1476,7 @@ MonoBehaviour:
   TimeLabel: {fileID: 684401213}
   PlayerPointCount: 0
   EnemyPointCount: 0
-  timer: 60
+  timer: 10
 --- !u!1 &2142423123
 GameObject:
   m_ObjectHideFlags: 0

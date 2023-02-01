@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         GenerateBall();
+
+        DontDestroyOnLoad(this);  //これで他のシーンに移ってもこのゲームオブジェクトは破壊されない。
     }
 
     // Update is called once per frame
