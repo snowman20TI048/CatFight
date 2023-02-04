@@ -35,13 +35,13 @@ public class BallController : MonoBehaviour
         isPlayerArea = Physics.Linecast(transform.position + transform.up * 0.4f, transform.position - transform.up * 0.9f, playerArea);
         isEnemyArea = Physics.Linecast(transform.position + transform.up * 0.4f, transform.position - transform.up * 0.9f, enemyArea);
 
-        if (isPlayerArea == true && radarScript.isChild == false)
+        if (isPlayerArea == true && radarScript.ball_state_type == Radar.BALL_STATE_TYPE.EMPTY)
         {
             gameManager.AddEnemyPointCount();
             Destroy(this.gameObject);
         }
 
-        if (isEnemyArea == true && radarScript.isChild == false)
+        if (isEnemyArea == true && radarScript.ball_state_type == Radar.BALL_STATE_TYPE.EMPTY)
         {
             gameManager.AddPlayerPointCount();           
             Destroy(this.gameObject);

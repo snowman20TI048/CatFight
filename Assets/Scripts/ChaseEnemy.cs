@@ -38,6 +38,7 @@ public class ChaseEnemy : MonoBehaviour
             if ((transform.position - goalObject.transform.position).sqrMagnitude < 1.0)
             {
                 target.GetComponent<Radar>().Drop();
+                enemy_state_type = ENEMY_STATE_TYPE.EMPTY;
             }
         }
         else if (enemy_state_type == ENEMY_STATE_TYPE.OPPONENT_CATCH)
@@ -52,7 +53,13 @@ public class ChaseEnemy : MonoBehaviour
                 // ターゲットの位置を目的地に設定する。
                 agent.destination = target.transform.position;
 
-
+                //距離が0になったら肉を落とす。
+                if ((transform.position - target.transform.position).sqrMagnitude < 1.0)
+                {
+                    target.GetComponent<Radar>().EnemyGet(gameObject);
+                    enemy_state_type = ENEMY_STATE_TYPE.OWNER_CATCH;
+                }
+                
 
 
             }

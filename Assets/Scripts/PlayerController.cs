@@ -22,7 +22,13 @@ public class PlayerController : MonoBehaviour
     [Header("ジャンプ力")]
     public float jumpPower;                      // ジャンプ・浮遊力
 
-   // private string hit = "Hit";　　　　　　　　// キー入力用の文字列指定
+    // private string hit = "Hit";　　　　　　　　// キー入力用の文字列指定
+
+    [SerializeField]
+    private HitController hitControllerPrefab;
+
+    [SerializeField]
+    private Transform hitSpherePosition;
 
     [SerializeField, Header("Linecast用 地面判定レイヤー")]
     private LayerMask groundLayer;
@@ -33,6 +39,9 @@ public class PlayerController : MonoBehaviour
         TryGetComponent(out rb);
         TryGetComponent(out animator);
         print(this.transform.childCount);
+
+        
+
     }
 
     void Update()
@@ -52,7 +61,7 @@ public class PlayerController : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.Z) && this.transform.childCount < 3)
+        if (Input.GetKeyDown(KeyCode.Z) && this.transform.childCount < 4)
         {    // InputManager の Jump の項目に登録されているキー入力を判定する
             Hit();
 
@@ -95,7 +104,11 @@ public class PlayerController : MonoBehaviour
 
     private void Hit()
     {
+        Debug.Log("Hit関数の呼び出し");
         animator.SetTrigger("Hit");
+        //当たり判定を生み出す
+        HitController hitController = Instantiate(hitControllerPrefab, hitSpherePosition.position, Quaternion.identity);
+        Destroy(hitController.gameObject, 0.5f);
 
     }
 
