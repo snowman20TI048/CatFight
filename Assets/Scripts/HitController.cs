@@ -21,27 +21,34 @@ public class HitController : MonoBehaviour
         //Debug.Log(other.gameObject.name);?
         if (other.TryGetComponent(out ChaseEnemy enemy) == true)
         {
-            //Debug.Log(other.gameObject.name);?
-            if (enemy.enemy_state_type != ChaseEnemy.ENEMY_STATE_TYPE.OWNER_CATCH)
-            {
+            Debug.Log(other.gameObject.name);
+
+            // 敵をノックバック
+            KnockbackEnemy(enemy);
+            // 敵のステート変更。合わせて移動停止させる
+            enemy.PrepareChangeState(ChaseEnemy.ENEMY_STATE_TYPE.STOP, 2.0f);
+
+            //肉を持っていなかった場合エラーが表示されてしまったので、これを足しました。
+            if (other.transform.childCount < 4)
+            { 
                 return;
             }
-            
-            if (other.transform.GetChild(2).TryGetComponent(out Radar radar) == true)
+
+            //敵が肉を持っていたら
+            if (other.transform.GetChild(3).TryGetComponent(out Radar radar) == true)
             {
                 //radar.ball_state_type = Radar.BALL_STATE_TYPE.EMPTY;
                 //radar.transform.SetParent(null);
                 //?
                 // 肉をドロップ
                 radar.Drop();
-                //Debug.Log("肉落とし成功！");
+                Debug.Log("肉落とし成功！");
                 //?
-                // 敵と肉をノックバック
-                Knockback(enemy, radar);
-                
-                // 敵のステート変更。合わせて移動停止させる
-                enemy.PrepareChangeState(ChaseEnemy.ENEMY_STATE_TYPE.STOP, 2.0f);
+                // 肉をノックバック
+                KnockbackDrumStick(radar);
+
             }
+
         }
     }
     
@@ -51,7 +58,7 @@ public class HitController : MonoBehaviour
     /// </summary>
     /// <param name="enemy"></param>
     /// <param name="radar"></param>
-    private void Knockback(ChaseEnemy enemy, Radar radar)
+    private void KnockbackEnemy(ChaseEnemy enemy)
     {
         // 敵を吹き飛ばす方向(移動してきた反対方向)を設定
         Vector3 direction = (this.transform.position - enemy.transform.position).normalized;
@@ -59,9 +66,15 @@ public class HitController : MonoBehaviour
         // 敵を吹き飛ばす
         enemy.transform.position += direction * knockbackPower;
 
+        
+    }
+
+    private void KnockbackDrumStick(Radar radar)
+    {
         // 肉をランダムに吹き飛ばす
         radar.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(Random.Range(-3f, 3f), 2f, Random.Range(-3f, 3f)) * 1000);
     }
+
 }
 
 

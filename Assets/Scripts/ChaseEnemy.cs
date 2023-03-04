@@ -23,6 +23,11 @@ public class ChaseEnemy : MonoBehaviour
     }
 
     public ENEMY_STATE_TYPE enemy_state_type;
+    [SerializeField]
+    private HitController hitControllerPrefab;
+
+    [SerializeField]
+    private Transform hitSpherePosition;
 
     void Start()
     {
@@ -58,13 +63,24 @@ public class ChaseEnemy : MonoBehaviour
                 agent.destination = target.transform.position;
 
                 //距離が0になったら肉を落とす。
-                if ((transform.position - target.transform.position).sqrMagnitude < 1.0)
+                if ((transform.position - target.transform.position).sqrMagnitude < 1.0 )
                 {
-                    //target.GetComponent<Radar>().EnemyGet(gameObject);
-                    radar.EnemyGet(gameObject);
+                    if (radar.ball_state_type == Radar.BALL_STATE_TYPE.EMPTY) 
+                    {
+                        //target.GetComponent<Radar>().EnemyGet(gameObject);
+                        radar.EnemyGet(gameObject);
 
-                    //enemy_state_type = ENEMY_STATE_TYPE.OWNER_CATCH;
-                    PrepareChangeState(ENEMY_STATE_TYPE.OWNER_CATCH);
+
+                        //enemy_state_type = ENEMY_STATE_TYPE.OWNER_CATCH;
+                        PrepareChangeState(ENEMY_STATE_TYPE.OWNER_CATCH);
+                    }
+
+                    else if (radar.ball_state_type == Radar.BALL_STATE_TYPE.PLAYER_CATCH) 
+                    {
+                        animator.SetTrigger(AnimParameterType.Hit.ToString());
+                        enemy_state_type = ENEMY_STATE_TYPE.STOP;
+                    }
+
                 }
             }
         }
@@ -124,5 +140,25 @@ public class ChaseEnemy : MonoBehaviour
     {
         target = drumstick;
         target.TryGetComponent(out radar);
+    }
+    /// <summary>
+    /// AnimationEvent より実行
+    /// </summary>
+    public void Hit()
+    {
+        Debug.Log("Hit関数の呼び出し");
+        //animator.SetTrigger("Hit");
+
+        // 見えない当たり判定を生み出す
+        HitController hitController = Instantiate(hitControllerPrefab, hitSpherePosition.position, Quaternion.identity);
+        Destroy(hitController.gameObject, 0.5f);
+
+        StartCoroutine(AttackInterval());
+    }
+
+    private IEnumerator AttackInterval() 
+    {
+        yield return new WaitForSeconds(1.0f);
+        enemy_state_type = ENEMY_STATE_TYPE.EMPTY;
     }
 }

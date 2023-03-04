@@ -124,7 +124,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Attack()
     {
-        //Debug.Log("Attack");
+        Debug.Log("Attack");
         //Debug.Log("Hit関数の呼び出し");
         //animator.SetTrigger("Hit");
 
@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void Hit()
     {
-        //Debug.Log("Hit関数の呼び出し");
+        Debug.Log("Hit関数の呼び出し");
         //animator.SetTrigger("Hit");
 
         // 見えない当たり判定を生み出す
