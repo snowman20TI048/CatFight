@@ -3,6 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+/// <summary>
+/// アニメーション遷移用の Parameters の種類
+/// </summary>
+public enum AnimParameterType
+{
+    Hit,
+    Run,
+    Jump,
+}
+
 [RequireComponent(typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
 {
@@ -10,15 +20,18 @@ public class PlayerController : MonoBehaviour
     private float inputVertical;
     private Rigidbody rb;
 
-    [SerializeField]
-    private float knockbackPower = 5.0f;
+   // [SerializeField]
+   // private float knockbackPower = 5.0f;
 
     private Animator animator;
 
     [SerializeField]
     private float moveSpeed;
 
+    private string hit = "Hit";    // キー入力用の文字列指定
+    private string run = "Run";
     private string jump = "Jump";　　　　　　　　// キー入力用の文字列指定
+
     [Header("ジャンプ力")]
     public float jumpPower;                      // ジャンプ・浮遊力
 
@@ -38,7 +51,7 @@ public class PlayerController : MonoBehaviour
     {
         TryGetComponent(out rb);
         TryGetComponent(out animator);
-        print(this.transform.childCount);
+        //print(this.transform.childCount);
 
         
 
@@ -63,8 +76,9 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Z) && this.transform.childCount < 4)
         {    // InputManager の Jump の項目に登録されているキー入力を判定する
-            Hit();
+             // Hit();
 
+            Attack();
         }
     }
 
@@ -83,12 +97,15 @@ public class PlayerController : MonoBehaviour
         // キー入力により移動方向が決まっている場合には、キャラクターの向きを進行方向に合わせる
         if (moveForward != Vector3.zero)
         {
-            animator.SetFloat("Run", 0.3f);
+            //animator.SetFloat("Run", 0.3f);
+            animator.SetFloat(run, 0.3f);
             transform.rotation = Quaternion.LookRotation(moveForward);
         }
         else 
         {
-            animator.SetFloat("Run", 0);
+           // animator.SetFloat("Run", 0);
+            // enum利用
+            animator.SetFloat(AnimParameterType.Run.ToString(), 0);
         }
     }
     /// <summary>
@@ -96,28 +113,42 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void Jump()
     {
-        animator.SetTrigger("Jump");
+        animator.SetTrigger(AnimParameterType.Jump.ToString());
         // キャラの位置を上方向へ移動させる(ジャンプ・浮遊)
         rb.AddForce(transform.up * jumpPower);
 
     }
 
-    private void Hit()
+    /// <summary>
+    /// 攻撃ボタン押下時の処理
+    /// </summary>
+    private void Attack()
     {
-        Debug.Log("Hit関数の呼び出し");
-        animator.SetTrigger("Hit");
-        //当たり判定を生み出す
+        //Debug.Log("Attack");
+        //Debug.Log("Hit関数の呼び出し");
+        //animator.SetTrigger("Hit");
+
+        animator.SetTrigger(AnimParameterType.Hit.ToString());
+
+        // AnimationEvent を利用しない場合にはここで呼び出す
+        //Hit();
+
+    }
+
+    /// <summary>
+    /// AnimationEvent より実行
+    /// </summary>
+    public void Hit()
+    {
+        //Debug.Log("Hit関数の呼び出し");
+        //animator.SetTrigger("Hit");
+
+        // 見えない当たり判定を生み出す
         HitController hitController = Instantiate(hitControllerPrefab, hitSpherePosition.position, Quaternion.identity);
         Destroy(hitController.gameObject, 0.5f);
-
     }
 
-    public void Attack()
-    {
-        Debug.Log("Attack");
-
-    }
-
+    /*
     private void OnTriggerStay(Collider other)
     {
         // もしも他のオブジェクトに「Enemy」というTag（タグ）が付いていたならば（条件）
@@ -154,6 +185,6 @@ public class PlayerController : MonoBehaviour
         other.transform.position += direction * knockbackPower;
 
     }
-
+    */
 
 }

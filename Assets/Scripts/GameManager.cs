@@ -8,10 +8,13 @@ public class GameManager : MonoBehaviour
 {
 
     [SerializeField]
-    private GameObject DrumstickPrefab;
+    //private GameObject DrumstickPrefab;
+    private BallController drumstickPrefab;
+    
 
     [SerializeField]
-    private GameObject Enemy;
+    //private GameObject Enemy;
+    private ChaseEnemy enemy;     // クラスでアサインしておく
 
     [SerializeField]
     private Text PointLabel;
@@ -60,9 +63,17 @@ public class GameManager : MonoBehaviour
 
     private void GenerateBall()
     {
-       GameObject drumstick = Instantiate(DrumstickPrefab, new Vector3(0.0f, 5.0f, 0.0f), Quaternion.identity);
-        drumstick.GetComponent<BallController>().SetUpBall(this);
-        Enemy.GetComponent<ChaseEnemy>().target = drumstick;
+        // GameObject drumstick = Instantiate(DrumstickPrefab, new Vector3(0.0f, 5.0f, 0.0f), Quaternion.identity);
+        // drumstick.GetComponent<BallController>().SetUpBall(this);
+
+        // プレハブの情報を GameObject 型ではなく、アタッチされているクラスでアサインしてあるので、毎回の GetComponent メソッドが不要
+        BallController drumstick = Instantiate(drumstickPrefab, new Vector3(0.0f, 5.0f, 0.0f), Quaternion.identity);
+        drumstick.SetUpBall(this);
+
+        //Enemy.GetComponent<ChaseEnemy>().target = drumstick;
+
+        // クラスでアサインしてあるので、毎回の GetComponent メソッドが不要。また GameObject 型は .gameObject 変数ですぐに参照できる
+        enemy.SetTarget(drumstick.gameObject);
     }
 
     private void CountDown()
